@@ -5,6 +5,9 @@ const cashFlowService = {
     get(limit, offset) {
         return api.get(_url, { params: {limit, offset}});
     },
+    getBalance(begin, end) {
+        return api.get(`${_url}/balance`, {params: {begin, end}});
+    },
     post({cashFlowType, datetime, description, value}) {
         return api.post(_url, {cashFlowType, datetime, description, value});
     },

@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core/';
 import Delete from '@material-ui/icons/Delete';
 import cashFlowService from '../../services/cashFlowService';
+import currencyFormat from '../../services/currencyFormatService';
 import constants from '../../shared/constants';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,18 +30,11 @@ const useStyles = makeStyles((theme) => ({
 
 function ListCashFlow() {
     const classes = useStyles();
-    const currencyFormat = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
     const rowsPerPageOptions = [5, 10, 20];
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
     const [data, setData] = React.useState([]);
-    const [total, setTotal] = React.useState(0);
-    React.useEffect(async () => {
-        console.log('effect run')
-        const {data} = await cashFlowService.get(rowsPerPage, page * rowsPerPage);
-        setTotal(data.total);
-        setData(data.data);
-    }, [rowsPerPage, page]);
+    const [total, setTotal] = React.useState(0);    
     const getFlowClass = (cashFlowType) => {
         if (cashFlowType.id === 0) return classes.flowIncoming;
         else if (cashFlowType.id === 1) return classes.flowOutgoing;
@@ -53,6 +47,14 @@ function ListCashFlow() {
             alert(constants.MSG.ERROR);
         }        
     }
+    React.useEffect(() => {
+        async function fetchData() {
+            const {data} = await cashFlowService.get(rowsPerPage, page * rowsPerPage);
+            setTotal(data.total);
+            setData(data.data);
+        }
+        fetchData();
+    }, [rowsPerPage, page]);
     return (
         <TableContainer component={Paper}>
             <Table>
