@@ -2,10 +2,14 @@ import api from './api';
 
 const _url = '/cashflow';
 const cashFlowService = {
-    get(limit, offset) {
-        return api.get(_url, { params: {limit, offset}});
+    get({begin, end, limit, offset}) {
+        begin = begin || null;
+        end = end || null;
+        return api.get(_url, { params: {begin, end, limit, offset}});
     },
-    getBalance(begin, end) {
+    getBalance({begin, end}) {
+        begin = begin || null;
+        end = end || null;
         return api.get(`${_url}/balance`, {params: {begin, end}});
     },
     post({cashFlowType, datetime, description, value}) {

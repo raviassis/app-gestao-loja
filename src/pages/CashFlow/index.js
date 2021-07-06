@@ -18,8 +18,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CashFlow() {
+    const FILTER_CLEAN = {
+        cashFlowType: '',
+        begin: '',
+        end: ''
+    };
     const classes = useStyles();
+    const rowsPerPageOptions = [5, 10, 20];
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
+    const [data, setData] = React.useState([]);
+    const [total, setTotal] = React.useState(0);
     const [balance, setBalance] = React.useState(0);    
+    const [filter, setFilter] = React.useState(FILTER_CLEAN);
     async function onSave(cashFlow) {
         try {
             await cashFlowService.post(cashFlow);
@@ -28,19 +39,44 @@ function CashFlow() {
             alert('Ocorreu um erro inesperado. Tente novamente mais tarde.');
         }
     }
-    React.useEffect(() => {
-        async function fetchData() {
-            const {data} = await cashFlowService.getBalance();
+    React.useEffect(() => {    
+        async function fetchBalanceData() {
+            const {data} = await cashFlowService.getBalance(filter);
             setBalance(data.balance);
+            console.log(data);
         }
+        async function fetchData() {        
+            const {data} = await cashFlowService.get({ 
+                ...filter, 
+                limit: rowsPerPage, 
+                offset: page * rowsPerPage
+            });
+            setTotal(data.total);
+            setData(data.data);
+            console.log(data);
+        }    
+        fetchBalanceData();
         fetchData();
-    }, []);
+    }, [filter, rowsPerPage, page]);
     return (
         <Container className={classes.container} maxWidth="lg">
             <h1 className={classes.title}>Fluxo de caixa</h1>
             <CashFlowForm onSave={onSave}/>
+            <CashFlowFilter 
+                filter={filter}
+                onApply={setFilter}
+                onClear={() => setFilter(FILTER_CLEAN)}
+            />
             <CashFlowResume balance={balance}/>
-            <ListCashFlow/>
+            <ListCashFlow
+                rowsPerPageOptions={rowsPerPageOptions}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                data={data}
+                total={total}
+                onChangePage={setPage}
+                onChangeRowsPerPage={setRowsPerPage}
+            />
         </Container>        
     );
 }

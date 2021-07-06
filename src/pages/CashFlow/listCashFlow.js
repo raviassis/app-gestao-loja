@@ -28,13 +28,20 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ListCashFlow() {
+function ListCashFlow(props) {
     const classes = useStyles();
-    const rowsPerPageOptions = [5, 10, 20];
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
-    const [data, setData] = React.useState([]);
-    const [total, setTotal] = React.useState(0);    
+    // const rowsPerPageOptions = [5, 10, 20];
+    // const [page, setPage] = React.useState(0);
+    // const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
+    // const [data, setData] = React.useState([]);
+    // const [total, setTotal] = React.useState(0);  
+    const {
+        rowsPerPageOptions,
+        page,
+        rowsPerPage,
+        data,
+        total
+    } = props;
     const getFlowClass = (cashFlowType) => {
         if (cashFlowType.id === 0) return classes.flowIncoming;
         else if (cashFlowType.id === 1) return classes.flowOutgoing;
@@ -47,14 +54,14 @@ function ListCashFlow() {
             alert(constants.MSG.ERROR);
         }        
     }
-    React.useEffect(() => {
-        async function fetchData() {
-            const {data} = await cashFlowService.get(rowsPerPage, page * rowsPerPage);
-            setTotal(data.total);
-            setData(data.data);
-        }
-        fetchData();
-    }, [rowsPerPage, page]);
+    // React.useEffect(() => {
+    //     async function fetchData() {
+    //         const {data} = await cashFlowService.get(rowsPerPage, page * rowsPerPage);
+    //         setTotal(data.total);
+    //         setData(data.data);
+    //     }
+    //     fetchData();
+    // }, [rowsPerPage, page]);
     return (
         <TableContainer component={Paper}>
             <Table>
@@ -108,8 +115,8 @@ function ListCashFlow() {
                 count={total}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                onChangePage={(_, page) => setPage(page)}
-                onChangeRowsPerPage={(event) => setRowsPerPage(event.target.value)}
+                onChangePage={(_, page) => props.onChangePage(page)}
+                onChangeRowsPerPage={(event) => props.onChangeRowsPerPage(event.target.value)}
             />
         </TableContainer>
     );
