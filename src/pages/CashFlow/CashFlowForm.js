@@ -12,6 +12,7 @@ import {
     Button
 } from '@material-ui/core/';
 import NumberFormat from 'react-number-format';
+import CashFlowTypeEnum from './CashFlowTypeEnum';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -52,8 +53,12 @@ function CashFlowForm(props) {
                             value={cashFlowType}
                             onChange={(event) => setCashFlowType(event.target.value)}
                         >
-                            <MenuItem value={0}>Entrada</MenuItem>
-                            <MenuItem value={1}>Saída</MenuItem>
+                            <MenuItem value={CashFlowTypeEnum.INCOMING.id}>
+                                {CashFlowTypeEnum.INCOMING.name}
+                            </MenuItem>
+                            <MenuItem value={CashFlowTypeEnum.OUTGOING.id}>
+                                {CashFlowTypeEnum.OUTGOING.name}
+                            </MenuItem>
                         </Select>
                     </FormControl>
                     <TextField

@@ -8,6 +8,7 @@ import CashFlowForm from './CashFlowForm';
 import CashFlowFilter from './CashFlowFilter';
 import CashFlowResume from './CashFlowResume';
 import cashFlowService from '../../services/cashFlowService';
+import CashFlowTypeEnum from './CashFlowTypeEnum';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 function CashFlow() {
     const FILTER_CLEAN = {
-        cashFlowType: '',
+        cashFlowType: CashFlowTypeEnum.ALL.id,
         begin: '',
         end: ''
     };

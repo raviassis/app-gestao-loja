@@ -30,13 +30,15 @@ function CashFlowFilter(props) {
     let {filter} = props;
     const [begin, setBegin] = React.useState(filter.begin);
     const [end, setEnd] = React.useState(filter.end);
+    const [cashFlowType, setCashFlowType] = React.useState(filter.cashFlowType);
     function onApply() {
-        props.onApply({begin, end});
+        props.onApply({begin, end, cashFlowType});
     }
     function onClear() {
         props.onClear();
         setBegin('');
         setEnd('');
+        setCashFlowType('');
     }
     return (
         <Accordion>
@@ -49,9 +51,11 @@ function CashFlowFilter(props) {
                         <InputLabel shrink>Tipo</InputLabel>
                         <Select
                             displayEmpty
+                            value={cashFlowType}
+                            onChange={(event) => setCashFlowType(event.target.value)}
                         >
                             <MenuItem value="">
-                                <em>--</em>
+                                Todos
                             </MenuItem>
                             <MenuItem value={0}>Entrada</MenuItem>
                             <MenuItem value={1}>Saída</MenuItem>
