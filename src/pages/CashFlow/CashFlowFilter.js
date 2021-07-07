@@ -6,13 +6,14 @@ import {
     AccordionDetails,
     Typography,
     TextField,
-    // FormControl,
-    // InputLabel,
-    // Select,
-    // MenuItem,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
     Button,
 } from '@material-ui/core/';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CashFlowTypeEnum from './CashFlowTypeEnum';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -38,7 +39,7 @@ function CashFlowFilter(props) {
         props.onClear();
         setBegin('');
         setEnd('');
-        setCashFlowType('');
+        setCashFlowType(CashFlowTypeEnum.ALL.id);
     }
     return (
         <Accordion>
@@ -47,20 +48,24 @@ function CashFlowFilter(props) {
             </AccordionSummary>
             <AccordionDetails>
                 <form className={classes.form}>
-                    {/* <FormControl>
+                    <FormControl>
                         <InputLabel shrink>Tipo</InputLabel>
                         <Select
                             displayEmpty
                             value={cashFlowType}
                             onChange={(event) => setCashFlowType(event.target.value)}
                         >
-                            <MenuItem value="">
-                                Todos
+                            <MenuItem value={CashFlowTypeEnum.ALL.id}>
+                                {CashFlowTypeEnum.ALL.name}
                             </MenuItem>
-                            <MenuItem value={0}>Entrada</MenuItem>
-                            <MenuItem value={1}>Saída</MenuItem>
+                            <MenuItem value={CashFlowTypeEnum.INCOMING.id}>
+                                {CashFlowTypeEnum.INCOMING.name}
+                            </MenuItem>
+                            <MenuItem value={CashFlowTypeEnum.OUTGOING.id}>
+                                {CashFlowTypeEnum.OUTGOING.name}
+                            </MenuItem>
                         </Select>
-                    </FormControl> */}
+                    </FormControl>
                     <TextField
                         label="Início"
                         type="datetime-local"
