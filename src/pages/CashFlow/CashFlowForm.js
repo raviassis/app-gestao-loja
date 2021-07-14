@@ -11,8 +11,10 @@ import {
     TextField,
     Button
 } from '@material-ui/core/';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import NumberFormat from 'react-number-format';
 import CashFlowTypeEnum from './CashFlowTypeEnum';
+import CashFlowService from '../../services/cashFlowService';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -24,12 +26,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+let getSuggestedDescriptionsTimeout;
+
 function CashFlowForm(props) {
     const classes = useStyles();
     const [cashFlowType, setCashFlowType] = useState(0);
     const [datetime, setDatetime] = useState('');
     const [description, setDescription] = useState('');
     const [value, setValue] = useState(0);
+    const [suggestedDescriptions, setSuggestedDescriptions] = useState([]);
 
     async function handleClick() {
         const dt = datetime ? datetime : (new Date()).toISOString();
@@ -61,14 +66,32 @@ function CashFlowForm(props) {
                             </MenuItem>
                         </Select>
                     </FormControl>
-                    <TextField
-                        type="text"
-                        label="Descrição *"
-                        InputLabelProps={{
-                            shrink: true,
+                    <Autocomplete
+                        freeSolo
+                        autoComplete
+                        options={suggestedDescriptions.map((option) => option.description)}
+                        onInputChange={(_, value) => {
+                            setDescription(value);
+                            clearTimeout(getSuggestedDescriptionsTimeout);
+                            getSuggestedDescriptionsTimeout = setTimeout(
+                                () => {
+                                    CashFlowService
+                                        .getSuggestedDescriptions(value)
+                                        .then(res => setSuggestedDescriptions(res.data));
+                                }, 
+                                700
+                            );
+                            
                         }}
-                        value={description}
-                        onChange={(event) => setDescription(event.target.value)}
+                        renderInput={(params) => (
+                        <TextField 
+                            {...params} 
+                            label="Descrição *"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                        )}
                     />
                     <NumberFormat 
                         prefix={'R$'}

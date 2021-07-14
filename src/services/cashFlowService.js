@@ -14,6 +14,9 @@ const cashFlowService = {
         cashFlowType = cashFlowType || null;
         return api.get(`${_url}/balance`, {params: {cashFlowType, begin, end}});
     },
+    getSuggestedDescriptions(description) {
+        return api.get(`${_url}/suggestedDescriptions`, {params: {description}});
+    },
     post({cashFlowType, datetime, description, value}) {
         return api.post(_url, {cashFlowType, datetime, description, value});
     },
