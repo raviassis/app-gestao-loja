@@ -9,6 +9,7 @@ import CashFlowFilter from './CashFlowFilter';
 import CashFlowResume from './CashFlowResume';
 import cashFlowService from '../../services/cashFlowService';
 import CashFlowTypeEnum from './CashFlowTypeEnum';
+import CashFlowConsolidatedReport from './CashFlowConsolidatedReport';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -32,6 +33,7 @@ function CashFlow() {
     const [total, setTotal] = React.useState(0);
     const [balance, setBalance] = React.useState(0);    
     const [filter, setFilter] = React.useState(FILTER_CLEAN);
+    const [consolidatedReport, setConsolidatedReport] = React.useState([]); 
     async function onSave(cashFlow) {
         try {
             await cashFlowService.post(cashFlow);
@@ -44,7 +46,6 @@ function CashFlow() {
         async function fetchBalanceData() {
             const {data} = await cashFlowService.getBalance(filter);
             setBalance(data.balance);
-            console.log(data);
         }
         async function fetchData() {        
             const {data} = await cashFlowService.get({ 
@@ -54,10 +55,15 @@ function CashFlow() {
             });
             setTotal(data.total);
             setData(data.data);
-            console.log(data);
         }    
+        async function fetchConsolidatedReport() {
+            const {data} = await cashFlowService.getConsolidatedReport(filter);
+            setConsolidatedReport(data.data);
+            console.log(data.data);
+        }
         fetchBalanceData();
         fetchData();
+        fetchConsolidatedReport();
     }, [filter, rowsPerPage, page]);
     return (
         <Container className={classes.container} maxWidth="lg">
@@ -77,6 +83,9 @@ function CashFlow() {
                 total={total}
                 onChangePage={setPage}
                 onChangeRowsPerPage={setRowsPerPage}
+            />
+            <CashFlowConsolidatedReport
+                consolidatedReport={consolidatedReport}
             />
         </Container>        
     );

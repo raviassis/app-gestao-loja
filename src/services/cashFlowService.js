@@ -17,6 +17,11 @@ const cashFlowService = {
     getSuggestedDescriptions(description) {
         return api.get(`${_url}/suggestedDescriptions`, {params: {description}});
     },
+    getConsolidatedReport({begin, end}) {
+        begin = begin || null;
+        end = end || null;
+        return api.get(`${_url}/consolidatedReport`, {params: {begin, end}});
+    },
     post({cashFlowType, datetime, description, value}) {
         return api.post(_url, {cashFlowType, datetime, description, value});
     },
