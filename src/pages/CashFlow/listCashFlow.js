@@ -16,16 +16,12 @@ import cashFlowService from '../../services/cashFlowService';
 import currencyFormat from '../../services/currencyFormatService';
 import constants from '../../shared/constants';
 import CashFlowTypeEnum from './CashFlowTypeEnum';
+import CashFlowTableRow from './CashFlowTableRow';
+import CashFlowTableCell from './CashFlowTableCell';
 
 const useStyles = makeStyles((theme) => ({
-    flowIncoming: {
-        color: 'green'
-    },
-    flowOutgoing: {
-        color: 'red'
-    },
-    cell: {
-        color: 'inherit'
+    pagination: {
+        width: 'max-content'
     }
 }));
 
@@ -38,10 +34,6 @@ function ListCashFlow(props) {
         data,
         total
     } = props;
-    const getFlowClass = (cashFlowType) => {
-        if (cashFlowType.id === CashFlowTypeEnum.INCOMING.id) return classes.flowIncoming;
-        else if (cashFlowType.id === CashFlowTypeEnum.OUTGOING.id) return classes.flowOutgoing;
-    }
     async function handleDeleteItem(id) {
         try {
             await cashFlowService.delete(id);
@@ -69,35 +61,44 @@ function ListCashFlow(props) {
                         </TableCell>
                         <TableCell>
                         </TableCell>
+                        <TableCell>
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {data.map(row => (
-                    <TableRow className={getFlowClass(row.cashFlowType)} key={row.id}>
-                            <TableCell className={classes.cell} >
+                        <CashFlowTableRow
+                            key={row.id}
+                            cashFlowType={row.cashFlowType}
+                        >
+                            <CashFlowTableCell>
                                 {CashFlowTypeEnum.getById(row.cashFlowType.id).name}
-                            </TableCell>
-                            <TableCell className={classes.cell}>
+                            </CashFlowTableCell>
+                            <CashFlowTableCell>
                                 {row.description}
-                            </TableCell>
-                            <TableCell className={classes.cell}>
+                            </CashFlowTableCell>
+                            <CashFlowTableCell>
                                 {currencyFormat.format(row.value)}
-                            </TableCell>
-                            <TableCell className={classes.cell}>
+                            </CashFlowTableCell>
+                            <CashFlowTableCell>
                                 {(new Date(row.datetime)).toLocaleString()}
-                            </TableCell>
-                            <TableCell>
+                            </CashFlowTableCell>
+                            <CashFlowTableCell>
+                                {row.recurrents_id ? 'Recorrente' : ''}
+                            </CashFlowTableCell>
+                            <CashFlowTableCell>
                                 <IconButton
                                     onClick={() => handleDeleteItem(row.id)}
                                 >
                                     <Delete/>
                                 </IconButton>
-                            </TableCell>
-                        </TableRow>         
+                            </CashFlowTableCell>
+                        </CashFlowTableRow>         
                     ))}
                 </TableBody>
             </Table>
             <TablePagination
+                className={classes.pagination}
                 rowsPerPageOptions={rowsPerPageOptions}
                 component="div"
                 count={total}

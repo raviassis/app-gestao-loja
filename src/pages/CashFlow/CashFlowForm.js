@@ -9,7 +9,11 @@ import {
     Select,
     MenuItem,
     TextField,
-    Button
+    Button,
+    RadioGroup,
+    FormControlLabel,
+    FormLabel,
+    Radio
 } from '@material-ui/core/';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import NumberFormat from 'react-number-format';
@@ -35,14 +39,37 @@ function CashFlowForm(props) {
     const [description, setDescription] = useState('');
     const [value, setValue] = useState(0);
     const [suggestedDescriptions, setSuggestedDescriptions] = useState([]);
+    const [recurrent, setRecurrent] = useState(false);
+    const [recurrentCashFlowDay, setRecurrentCashFlowDay] = useState('')
 
     async function handleClick() {
         const dt = datetime ? datetime : (new Date()).toISOString();
-        await props.onSave({cashFlowType, datetime: dt, description, value});
+        await props.onSave({
+            cashFlowType, 
+            datetime: dt, 
+            description, 
+            value,
+            recurrent,
+            day: recurrentCashFlowDay
+        });
         setCashFlowType(0);
         setDatetime('');
         setDescription('');
         setValue(0);
+        setRecurrentCashFlowDay('');
+    }
+    function handleRecurrentChange(event) {
+        setRecurrent(event.target.value === 'true');
+        setDatetime('');
+        setRecurrentCashFlowDay('');
+    }
+    function handleRecurrentCashflowDay(event) {
+        let value = event.target.value;
+        if(typeof value === 'string' && value !== '') {
+            if(value > 28) value = 28;
+            if(value < 1) value = 1;
+        }
+        setRecurrentCashFlowDay(value); 
     }
     return (
         <Card>
@@ -69,6 +96,7 @@ function CashFlowForm(props) {
                     <Autocomplete
                         freeSolo
                         autoComplete
+                        value={description}
                         options={suggestedDescriptions.map((option) => option.description)}
                         onInputChange={(_, value) => {
                             setDescription(value);
@@ -105,15 +133,46 @@ function CashFlowForm(props) {
                         label="Valor *"
                         customInput={TextField}
                     />
-                    <TextField
-                        type="datetime-local"
-                        label="Data/Hora"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        value={datetime}
-                        onChange={(event) => setDatetime(event.target.value)}
-                    />
+                    <FormControl color='primary'>
+                        <FormLabel>Repetir lançamento?</FormLabel>
+                        <RadioGroup 
+                            row
+                            value={recurrent}
+                            onChange={handleRecurrentChange}
+                        >
+                            <FormControlLabel 
+                                value={false} 
+                                control={<Radio/>}
+                                label="Não"
+                            />
+                            <FormControlLabel 
+                                value={true} 
+                                control={<Radio/>}
+                                label="Sim"
+                            />
+                        </RadioGroup>
+                    </FormControl>
+                    {
+                        !recurrent ?
+                        <TextField
+                            type="datetime-local"
+                            label="Data/Hora"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            value={datetime}
+                            onChange={(event) => setDatetime(event.target.value)}
+                        /> :
+                        <TextField
+                            type={'number'}
+                            label='Dia do lançamento'
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            value={recurrentCashFlowDay}
+                            onChange={handleRecurrentCashflowDay}
+                        />
+                    }
                     <Button 
                         onClick={handleClick}
                         variant="contained" 

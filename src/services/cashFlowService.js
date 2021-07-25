@@ -22,8 +22,18 @@ const cashFlowService = {
         end = end || null;
         return api.get(`${_url}/consolidatedReport`, {params: {begin, end}});
     },
-    post({cashFlowType, datetime, description, value}) {
-        return api.post(_url, {cashFlowType, datetime, description, value});
+    post({
+        cashFlowType, 
+        datetime, 
+        description, 
+        value
+    }) {
+        return api.post(_url, {
+                cashFlowType, 
+                datetime, 
+                description, 
+                value
+            });
     },
     delete(id) {
         return api.delete(`${_url}/${id}`);

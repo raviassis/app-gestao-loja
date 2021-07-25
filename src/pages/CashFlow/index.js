@@ -8,8 +8,10 @@ import CashFlowForm from './CashFlowForm';
 import CashFlowFilter from './CashFlowFilter';
 import CashFlowResume from './CashFlowResume';
 import cashFlowService from '../../services/cashFlowService';
+import recurrentService from '../../services/recurrentService';
 import CashFlowTypeEnum from './CashFlowTypeEnum';
 import CashFlowConsolidatedReport from './CashFlowConsolidatedReport';
+import ListRecurrents from './ListRecurrents';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -34,13 +36,27 @@ function CashFlow() {
     const [balance, setBalance] = React.useState(0);    
     const [filter, setFilter] = React.useState(FILTER_CLEAN);
     const [consolidatedReport, setConsolidatedReport] = React.useState([]); 
-    async function onSave(cashFlow) {
+    async function onSaveCashFlow(cashFlow) {
         try {
             await cashFlowService.post(cashFlow);
             window.location.reload();
         } catch (err) {
             alert('Ocorreu um erro inesperado. Tente novamente mais tarde.');
         }
+    }
+    async function onSaveRecurrent(recurrent) {
+        try {
+            await recurrentService.post(recurrent);
+            window.location.reload();
+        } catch (err) {
+            alert('Ocorreu um erro inesperado. Tente novamente mais tarde.');
+        }
+    }
+    async function onSave(cashFlow) {
+        if (cashFlow.recurrent)
+            await onSaveRecurrent(cashFlow);
+        else 
+            await onSaveCashFlow(cashFlow);
     }
     React.useEffect(() => {    
         async function fetchBalanceData() {
@@ -59,7 +75,6 @@ function CashFlow() {
         async function fetchConsolidatedReport() {
             const {data} = await cashFlowService.getConsolidatedReport(filter);
             setConsolidatedReport(data.data);
-            console.log(data.data);
         }
         fetchBalanceData();
         fetchData();
@@ -75,6 +90,9 @@ function CashFlow() {
                 onClear={() => setFilter(FILTER_CLEAN)}
             />
             <CashFlowResume balance={balance}/>
+            <CashFlowConsolidatedReport
+                consolidatedReport={consolidatedReport}
+            />
             <ListCashFlow
                 rowsPerPageOptions={rowsPerPageOptions}
                 page={page}
@@ -84,9 +102,7 @@ function CashFlow() {
                 onChangePage={setPage}
                 onChangeRowsPerPage={setRowsPerPage}
             />
-            <CashFlowConsolidatedReport
-                consolidatedReport={consolidatedReport}
-            />
+            <ListRecurrents/>
         </Container>        
     );
 }
