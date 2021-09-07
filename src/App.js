@@ -1,10 +1,10 @@
 // import logo from './logo.svg';
 import './App.css';
-import CashFlow from './pages/CashFlow';
+import Routes from './routes';
 
 function App() {
   return (
-    <CashFlow/>
+    <Routes/>
   );
 }
 

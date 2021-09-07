@@ -40,7 +40,7 @@ function CashFlowForm(props) {
     const [value, setValue] = useState(0);
     const [suggestedDescriptions, setSuggestedDescriptions] = useState([]);
     const [recurrent, setRecurrent] = useState(false);
-    const [recurrentCashFlowDay, setRecurrentCashFlowDay] = useState('')
+    const [recurrentCashFlowDay, setRecurrentCashFlowDay] = useState(1)
 
     async function handleClick() {
         const dt = datetime ? datetime : (new Date()).toISOString();
@@ -56,12 +56,12 @@ function CashFlowForm(props) {
         setDatetime('');
         setDescription('');
         setValue(0);
-        setRecurrentCashFlowDay('');
+        setRecurrentCashFlowDay(1);
     }
     function handleRecurrentChange(event) {
         setRecurrent(event.target.value === 'true');
         setDatetime('');
-        setRecurrentCashFlowDay('');
+        setRecurrentCashFlowDay(1);
     }
     function handleRecurrentCashflowDay(event) {
         let value = event.target.value;

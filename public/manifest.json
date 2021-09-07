@@ -8,12 +8,12 @@
       "type": "image/png"
     },
     {
-      "src": "cashflow-icon.png.png",
+      "src": "cashflow-icon.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "cashflow-icon.png.png",
+      "src": "cashflow-icon.png",
       "type": "image/png",
       "sizes": "512x512"
     }

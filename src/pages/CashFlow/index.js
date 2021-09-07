@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function CashFlow() {
+function CashFlow(props) {
     const FILTER_CLEAN = {
         cashFlowType: CashFlowTypeEnum.ALL.id,
         begin: '',
@@ -82,7 +82,7 @@ function CashFlow() {
     }, [filter, rowsPerPage, page]);
     return (
         <Container className={classes.container} maxWidth="lg">
-            <h1 className={classes.title}>Fluxo de caixa</h1>
+            <h1>Fluxo de caixa</h1>
             <CashFlowForm onSave={onSave}/>
             <CashFlowFilter 
                 filter={filter}
