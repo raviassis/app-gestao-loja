@@ -17,11 +17,13 @@
     "react-number-format": "^4.6.3",
     "react-router-dom": "^5.2.1",
     "react-scripts": "4.0.3",
+    "serve": "^12.0.0",
     "validator": "^13.6.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
+    "start": "serve -l 3000 -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
