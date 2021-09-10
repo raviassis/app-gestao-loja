@@ -9,8 +9,9 @@ import {
     ListItemText,
     ListItemSecondaryAction
 } from '@material-ui/core/';
-import CashFlowTypeEnum from './CashFlowTypeEnum';
+import CashFlowTypeEnum from '../../models/CashFlowTypeEnum';
 import currencyFormat from '../../services/currencyFormatService';
+import Loading from '../../components/Loading';
 
 function CashFlowConsolidatedReport(props) {
     const {consolidatedReport} = props;
@@ -44,12 +45,9 @@ function CashFlowConsolidatedReport(props) {
             </ListItem>
         );
     }
-    return (
-        <Card>
-            <CardHeader
-                title="Relatório Consolidado"
-            />
-            <CardContent>
+    function renderContent() {
+        return (
+            <>
                 <div>
                     <Typography>Entradas</Typography>
                     <Divider/>
@@ -66,8 +64,20 @@ function CashFlowConsolidatedReport(props) {
                         {renderTotal(outgoings, CashFlowTypeEnum.OUTGOING)}
                     </List>
                 </div>
-                
-
+            </>
+        );
+    }
+    return (
+        <Card>
+            <CardHeader
+                title="Relatório Consolidado"
+            />
+            <CardContent>
+                {
+                    props.loading
+                    ? (<Loading/>)
+                    : renderContent()
+                }
             </CardContent>
         </Card>
     );

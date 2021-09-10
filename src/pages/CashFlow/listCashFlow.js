@@ -15,7 +15,7 @@ import Delete from '@material-ui/icons/Delete';
 import cashFlowService from '../../services/cashFlowService';
 import currencyFormat from '../../services/currencyFormatService';
 import constants from '../../shared/constants';
-import CashFlowTypeEnum from './CashFlowTypeEnum';
+import CashFlowTypeEnum from '../../models/CashFlowTypeEnum';
 import CashFlowTableRow from './CashFlowTableRow';
 import CashFlowTableCell from './CashFlowTableCell';
 

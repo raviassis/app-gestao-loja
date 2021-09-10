@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
     TableRow,
 } from '@material-ui/core/';
-import CashFlowTypeEnum from './CashFlowTypeEnum';
+import CashFlowTypeEnum from '../../models/CashFlowTypeEnum';
 
 const useStyles = makeStyles((theme) => ({
     flowIncoming: {

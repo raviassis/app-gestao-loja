@@ -9,7 +9,7 @@ import CashFlowFilter from './CashFlowFilter';
 import CashFlowResume from './CashFlowResume';
 import cashFlowService from '../../services/cashFlowService';
 import recurrentService from '../../services/recurrentService';
-import CashFlowTypeEnum from './CashFlowTypeEnum';
+import CashFlowTypeEnum from '../../models/CashFlowTypeEnum';
 import CashFlowConsolidatedReport from './CashFlowConsolidatedReport';
 import ListRecurrents from './ListRecurrents';
 
@@ -29,6 +29,9 @@ function CashFlow(props) {
     };
     const classes = useStyles();
     const rowsPerPageOptions = [5, 10, 20];
+    const [loadingBalance, setLoadingBalance] = React.useState(true);
+    const [loadingConsolidated, setLoadingConsolidated] = React.useState(true);
+    const [loadingData, setLoadingData] = React.useState(true);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
     const [data, setData] = React.useState([]);
@@ -62,6 +65,7 @@ function CashFlow(props) {
         async function fetchBalanceData() {
             const {data} = await cashFlowService.getBalance(filter);
             setBalance(data.balance);
+            setLoadingBalance(false);
         }
         async function fetchData() {        
             const {data} = await cashFlowService.get({ 
@@ -71,10 +75,12 @@ function CashFlow(props) {
             });
             setTotal(data.total);
             setData(data.data);
+            setLoadingData(false);
         }    
         async function fetchConsolidatedReport() {
             const {data} = await cashFlowService.getConsolidatedReport(filter);
             setConsolidatedReport(data.data);
+            setLoadingConsolidated(false);
         }
         fetchBalanceData();
         fetchData();
@@ -89,11 +95,13 @@ function CashFlow(props) {
                 onApply={setFilter}
                 onClear={() => setFilter(FILTER_CLEAN)}
             />
-            <CashFlowResume balance={balance}/>
+            <CashFlowResume loading={loadingBalance} balance={balance}/>
             <CashFlowConsolidatedReport
+                loading={loadingConsolidated}
                 consolidatedReport={consolidatedReport}
             />
             <ListCashFlow
+                loading={loadingData}
                 rowsPerPageOptions={rowsPerPageOptions}
                 page={page}
                 rowsPerPage={rowsPerPage}

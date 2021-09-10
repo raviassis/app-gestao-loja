@@ -9,21 +9,12 @@ import { useState } from 'react';
 import CentralizedContainer from '../../components/CentralizedContainer';
 import TextFieldPassword from '../../components/TextFieldPassword';
 import VerticalForm from '../../components/VerticalForm';
-import { makeStyles } from '@material-ui/core/styles';
 import Loading from '../../components/Loading';
 import authService from '../../services/authService';
 import { useHistory } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-    loadingField: {
-        display: 'flex',
-        justifyContent: 'center'
-    }
-}));
-
 function Login() {
     const history = useHistory();
-    const classes = useStyles();
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -71,9 +62,7 @@ function Login() {
                     {
                         loading && 
                         (
-                            <div className={classes.loadingField}>
-                                <Loading/> 
-                            </div>
+                            <Loading/>
                         )
                     }
                 </CardContent>

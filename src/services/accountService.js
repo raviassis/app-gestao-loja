@@ -10,6 +10,9 @@ const accountService = {
     },
     changePassword({password, newPassword}) {
         return api.put(`${_url}/change_password`, {password, newPassword});
+    },
+    getUserConfig() {
+        return api.get(`${_url}/me/config`);
     }
 };
 export default accountService;

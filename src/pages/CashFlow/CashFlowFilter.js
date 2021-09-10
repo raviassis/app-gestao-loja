@@ -13,7 +13,7 @@ import {
     Button,
 } from '@material-ui/core/';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CashFlowTypeEnum from './CashFlowTypeEnum';
+import CashFlowTypeEnum from '../../models/CashFlowTypeEnum';
 
 const useStyles = makeStyles((theme) => ({
     form: {

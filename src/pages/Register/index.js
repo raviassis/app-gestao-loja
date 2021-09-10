@@ -20,10 +20,6 @@ const useStyles = makeStyles((theme) => ({
         '& form > *': {
             marginBottom: '25px'
         }
-    }, 
-    loadingField: {
-        display: 'flex',
-        justifyContent: 'center'
     }
 }));
 
@@ -156,9 +152,7 @@ function Register(props) {
                     {
                         loading && 
                         (
-                            <div className={classes.loadingField}>
-                                <Loading/> 
-                            </div>
+                            <Loading/>
                         )
                     }
                     

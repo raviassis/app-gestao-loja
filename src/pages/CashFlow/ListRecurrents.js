@@ -15,7 +15,7 @@ import {
 import Delete from '@material-ui/icons/Delete';
 import RecurrentService from '../../services/recurrentService';
 import constants from '../../shared/constants';
-import CashFlowTypeEnum from './CashFlowTypeEnum';
+import CashFlowTypeEnum from '../../models/CashFlowTypeEnum';
 import currencyFormat from '../../services/currencyFormatService';
 import CashFlowTableRow from './CashFlowTableRow';
 import CashFlowTableCell from './CashFlowTableCell';

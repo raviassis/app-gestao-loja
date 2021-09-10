@@ -12,6 +12,7 @@ function handleValidationError(error) {
 
 function handleUnauthorized(error) {
   if (error.config.url.search('login') < 0) {
+    window.location.href = "/login";
   }
 
 }
