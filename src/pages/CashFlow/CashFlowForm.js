@@ -101,6 +101,19 @@ function CashFlowForm(props) {
             );
         }
     }
+    function isFormValid() {
+        console.log(recurrentCashFlowDay)
+        return cashFlowType !== 0 &&
+                description.length > 0 &&
+                value > 0 &&
+                (
+                    !recurrent ||
+                    (
+                        recurrentCashFlowDay >= 1 && 
+                        recurrentCashFlowDay <= 28
+                    )
+                );
+    }
     function renderForm() {
         return (
             <VerticalForm>
@@ -173,6 +186,7 @@ function CashFlowForm(props) {
                     />
                 }
                 <Button 
+                    disabled={!isFormValid()}
                     onClick={handleClick}
                     variant="contained" 
                     color="primary">
