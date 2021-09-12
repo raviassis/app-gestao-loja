@@ -25,6 +25,9 @@ const authService = {
         if (!token) return Promise.resolve(false);
         
         return api.get(`${_url}/verify_token`).then(() => true).catch(() => false);
+    },
+    emailConfirmation(confirmation_token) {
+        return api.post(`${_url}/email_confirmation/${confirmation_token}`);
     }
 }
 export default authService;

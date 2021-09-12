@@ -26,7 +26,7 @@ function Login() {
             })
             .catch((error) => {
                 if (error.response.status === 401) {
-                    alert('Credenciais Inválidas');
+                    alert(error.response.data.errors[0].msg);
                 }
             })
             .finally(() => {

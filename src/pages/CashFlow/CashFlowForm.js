@@ -102,7 +102,6 @@ function CashFlowForm(props) {
         }
     }
     function isFormValid() {
-        console.log(recurrentCashFlowDay)
         return cashFlowType !== 0 &&
                 description.length > 0 &&
                 value > 0 &&

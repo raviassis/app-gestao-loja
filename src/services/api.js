@@ -40,11 +40,11 @@ api.interceptors.response.use(null,
           break;
         case 401:
           handleUnauthorized(error);
-          break;
-        default:
-          console.log(error.request);
-          alert(DEFAULT_ERROR_MESSAGE);
+          break;          
       }
+
+      if (error.response.status >= 500) 
+        alert(DEFAULT_ERROR_MESSAGE);
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
