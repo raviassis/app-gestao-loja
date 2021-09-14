@@ -40,7 +40,9 @@ api.interceptors.response.use(null,
           break;
         case 401:
           handleUnauthorized(error);
-          break;          
+          break; 
+        default:
+          break;         
       }
 
       if (error.response.status >= 500) 

@@ -1,7 +1,4 @@
 import {
-    Card,
-    CardHeader,
-    CardContent,
     TextField,
     Button
 } from '@material-ui/core';
@@ -13,7 +10,7 @@ import PasswordAndConfirm from '../../components/PasswordAndConfirm';
 import authService from '../../services/authService';
 import { useHistory } from "react-router-dom";
 import Loading from '../../components/Loading';
-import CentralizedContainer from '../../components/CentralizedContainer';
+import CentralizedCard from '../../components/CentralizedCard';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -115,13 +112,14 @@ function Register(props) {
     }
 
     return (
-        <CentralizedContainer className={classes.container} maxWidth="sm">
-            <Card>
-                <CardHeader
-                    title="Cadastro"
-                />
-                <CardContent>
-                    <VerticalForm onSubmit={handleSubmit}>
+        <CentralizedCard
+            containerProps={{
+                className: classes.container,
+                maxWidth: "sm"
+            }} 
+            cardHeaderProps={{title: "Cadastro"}}
+        >
+            <VerticalForm onSubmit={handleSubmit}>
                         <TextField 
                             label="Nome"
                             value={name}
@@ -155,10 +153,7 @@ function Register(props) {
                             <Loading/>
                         )
                     }
-                    
-                </CardContent>
-            </Card>
-        </CentralizedContainer>
+        </CentralizedCard>
     );
 }
 

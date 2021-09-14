@@ -28,6 +28,12 @@ const authService = {
     },
     emailConfirmation(confirmation_token) {
         return api.post(`${_url}/email_confirmation/${confirmation_token}`);
+    },
+    resetPassword({newPassword, reset_token}) {
+        return api.post(`${_url}/reset_password/${reset_token}`, { newPassword });
+    },
+    requestResetPassword(email) {
+        return api.post(`${_url}/request_reset_password`, { email });
     }
 }
 export default authService;
