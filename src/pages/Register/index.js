@@ -102,7 +102,11 @@ function Register(props) {
         authService
             .register(formRegister)
             .then(() => {
-                alert("Cadastro realizado com sucesso");
+                alert(`
+                    Cadastro realizado com sucesso.\n
+                    Enviamos um email de confirmação para o seu email.\n
+                    Clique no link de confirmação para liberar o seu acesso.
+                `);
                 history.push("/login");
             })
             .finally(() => {
