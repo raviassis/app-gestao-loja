@@ -7,6 +7,7 @@ import {
     Button
 } from '@material-ui/core/';
 import { useEffect, useState } from 'react';
+import Loading from '../../components/Loading';
 import VerticalForm from '../../components/VerticalForm';
 import accountService from '../../services/accountService';
 
@@ -19,11 +20,13 @@ export default function BasicInfoCard() {
         name: "",
         email: ""
     });
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         accountService
             .getMyAccount()
-            .then(res => {setAccout(res.data); setAccountForm(res.data)});
+            .then(res => {setAccout(res.data); setAccountForm(res.data)})
+            .finally(() => {setLoading(false)});
     }, []);
 
     function hasChange() {
@@ -45,21 +48,29 @@ export default function BasicInfoCard() {
             <CardContent>
                 <Container maxWidth="sm">
                     <VerticalForm onSubmit={handleSubmit}>
-                        <TextField 
-                            disabled 
-                            label="email" 
-                            value={accountForm.email} />
-                        <TextField 
-                            label="Nome" 
-                            value={accountForm.name}
-                            onChange={(event) => setAccountForm({...accountForm, name: event.target.value})} />
-                        <Button
-                            disabled={!hasChange()}
-                            type="submit"
-                            variant="contained" 
-                            color="primary">
-                            Salvar Alterações
-                        </Button>
+                        {
+                            loading
+                            ? <Loading/>
+                            : (
+                                <>
+                                <TextField 
+                                    disabled 
+                                    label="email" 
+                                    value={accountForm.email} />
+                                <TextField 
+                                    label="Nome" 
+                                    value={accountForm.name}
+                                    onChange={(event) => setAccountForm({...accountForm, name: event.target.value})} />
+                                <Button
+                                    disabled={!hasChange()}
+                                    type="submit"
+                                    variant="contained" 
+                                    color="primary">
+                                    Salvar Alterações
+                                </Button>
+                                </>
+                            )
+                        }
                     </VerticalForm>
                 </Container>
             </CardContent>
